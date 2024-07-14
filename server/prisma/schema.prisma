@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Location {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+
+  // the geometry column itself
+  coords Unsupported("geometry(Point, 4326)")
+
+  // the index for that column
+  @@index([coords], name: "location_idx", type: Gist)
+}
+
+model Blockgroup {
+  id    String                                       @id
+  geom  Unsupported("geometry(MultiPolygon, 4326)")?
+  water Float
+
+  @@index([geom], name: "blockgroup_idx", type: Gist)
+}
+
+model nyc {
+  gid      String                                        @id
+  geom     Unsupported("geometry(MultiPolygon, 26918)")?
+  boroname String
+  name     String
+
+  @@index([geom], name: "nyc_id", type: Gist)
+}

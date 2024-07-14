@@ -1,0 +1,18 @@
+
+
+nyc_census_blocks.shp
+shp2pgsql -c -s 26918 -i -I nyc_census_blocks.shp nyc_census_blocks > nyc_census_blocks.sql
+
+nyc_neighborhoods.shp
+shp2pgsql -c -s 26918 -i -I nyc_neighborhoods.shp nyc_neighborhoods > nyc_neighborhoods.sql
+
+nyc_subway_stations.shp
+shp2pgsql -c -s 26918 -i -I nyc_subway_stations.shp nyc_subway_stations > nyc_subway_stations.sql
+
+nyc_homicides.shp  
+shp2pgsql -c -s 26918 -i -I nyc_homicides.shp nyc_homicides > nyc_homicides.sql   
+
+nyc_streets.shp
+shp2pgsql -c -s 26918 -i -I nyc_streets.shp nyc_streets > nyc_streets.sql
+
+

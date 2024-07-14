@@ -1,0 +1,7 @@
+version: "3.1"
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    restart: "no"
+    environment:
+      - POSTGRESQL_PASSWORD=marij
