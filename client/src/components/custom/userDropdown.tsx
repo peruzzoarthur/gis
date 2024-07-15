@@ -11,30 +11,11 @@ import {
 import { useTheme } from '@/components/themeProvider'
 import { Switch } from '../ui/switch'
 import { Label } from '../ui/label'
-import { AxiosResponse } from 'axios'
-import { axiosInstance } from '@/axiosInstance'
-import { useAuth } from '@/hooks/useAuth'
-import { Link, useNavigate } from '@tanstack/react-router'
-
-import { useGetUserById } from '@/hooks/useGetUser'
 
 export const UserDropdown = () => {
-    const navigate = useNavigate()
-    const { user } = useGetUserById()
-    const authentication = useAuth()
-
-    const logoutHandler = async () => {
-        const data: AxiosResponse<boolean> =
-            await axiosInstance.get('auth/logout/')
-        localStorage.removeItem('accessToken')
-        localStorage.removeItem('refreshToken')
-        authentication.signOut()
-        await navigate({ to: '/login' })
-        return data
-    }
     const { theme, setTheme } = useTheme()
 
-    return user ? (
+    return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button
@@ -42,19 +23,11 @@ export const UserDropdown = () => {
                     size="icon"
                     className="w-12 h-12 overflow-hidden rounded-full"
                 >
-                    {user.profileImage ? (
-                        <img
-                            src={user.profileImage}
-                            alt="Avatar"
-                            className="object-cover w-full h-full"
-                        />
-                    ) : (
-                        <img
-                            src={mari}
-                            alt="Avatar"
-                            className="object-cover w-full h-full"
-                        />
-                    )}
+                    <img
+                        src={mari}
+                        alt="Avatar"
+                        className="object-cover w-full h-full"
+                    />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -63,7 +36,7 @@ export const UserDropdown = () => {
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={logoutHandler}>
+                <DropdownMenuItem onClick={() => console.log('logout')}>
                     Logout
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -76,7 +49,6 @@ export const UserDropdown = () => {
                                 onCheckedChange={() => setTheme('light')}
                                 id="set-theme-light"
                             />
-                            {/* <Label htmlFor="set-theme-light">Set theme</Label> */}
                         </div>
                     )}
                     {theme === 'light' && (
@@ -111,9 +83,5 @@ export const UserDropdown = () => {
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
-    ) : (
-        <Link to="/login">
-            <Button>Login</Button>
-        </Link>
     )
 }

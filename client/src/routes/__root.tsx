@@ -5,9 +5,8 @@ import {
 import React, { Suspense } from 'react'
 import { QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { AuthContext } from '@/hooks/useAuth'
 
-import { RootNav } from '@/components/custom/rootNav'
+// import { RootNav } from '@/components/custom/rootNav'
 import { Outlet } from '@tanstack/react-router'
 
 const TanStackRouterDevtools =
@@ -23,7 +22,6 @@ const TanStackRouterDevtools =
           )
 
 export type RouterContext = {
-    authentication: AuthContext
     queryClient: QueryClient
 }
 export const Route = createRootRouteWithContext<RouterContext>()({
@@ -33,8 +31,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 function Root() {
     return (
         <>
-            <RootNav />
-            <div className="flex justify-center mt-20 overflow-hidden">
+            {/* <RootNav /> */}
+            <div className="flex justify-center w-full overflow-hidden">
                 <Outlet />
             </div>
             <ScrollRestoration />

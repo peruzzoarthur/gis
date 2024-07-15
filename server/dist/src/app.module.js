@@ -11,12 +11,13 @@ const common_1 = require("@nestjs/common");
 const prisma_module_1 = require("./prisma/prisma.module");
 const coords_module_1 = require("./coords/coords.module");
 const pg_module_1 = require("./pg/pg.module");
+const cities_module_1 = require("./cities/cities.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, coords_module_1.CoordsModule, pg_module_1.PgModule],
+        imports: [prisma_module_1.PrismaModule, coords_module_1.CoordsModule, pg_module_1.PgModule, cities_module_1.CitiesModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

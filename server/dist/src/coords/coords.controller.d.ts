@@ -7,7 +7,7 @@ export declare class CoordsController {
     constructor(coordsService: CoordsService);
     create(createCoordDto: CreateCoordDto): Promise<string>;
     rawSql(rawSqlDto: RawSqlDto): Promise<void>;
-    findAll(): Promise<any>;
+    findAll(): Promise<unknown>;
     findNycStreets(): Promise<unknown>;
     findOne(id: string): string;
     update(id: string, updateCoordDto: UpdateCoordDto): string;

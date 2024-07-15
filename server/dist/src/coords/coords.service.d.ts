@@ -8,7 +8,7 @@ export declare class CoordsService {
     private pgService;
     constructor(prisma: PrismaService, pgService: PgService);
     create(createCoordDto: CreateCoordDto): Promise<string>;
-    findAll(): Promise<any>;
+    findAll(): Promise<unknown>;
     findNycStreets(): Promise<unknown>;
     findOne(id: number): string;
     update(id: number, updateCoordDto: UpdateCoordDto): string;

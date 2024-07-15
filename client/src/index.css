@@ -48,9 +48,11 @@
         --ring: 240 4.9% 83.9%;
     }
 }
-.leaflet-container {
+/* .leaflet-container {
     height: 100vh;
-}
+    cursor: crosshair !important;
+} */
+
 @layer base {
     * {
         @apply border-border;

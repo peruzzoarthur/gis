@@ -37,7 +37,7 @@ export class CoordsService {
       SELECT "id", "createdAt", "updatedAt", ST_AsText("coords") AS "coords"
       FROM public."Location";
     `;
-    return locations[0].coords;
+    return locations;
   }
 
   async findNycStreets() {
