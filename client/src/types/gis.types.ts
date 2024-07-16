@@ -21,3 +21,8 @@ export type ScreenSquare = {
     maxX: number
     maxY: number
 }
+
+export type RasterRow = {
+    rid: number
+    hex: string
+}

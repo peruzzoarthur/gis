@@ -30,6 +30,8 @@ import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { useGetAllRsCities } from '@/hooks/useGetAllRsCities'
 import { ScreenSquare } from '@/components/custom/screenSquare'
+import { useGetMdt } from '@/hooks/useGetMdt'
+import { RasterLayer } from '@/components/rasterLayer'
 
 export const Route = createFileRoute('/gis')({
     component: Gis,
@@ -55,6 +57,10 @@ export function Gis() {
     )
     const { isFetchingAllRsCities, geometries, showCities, setShowCities } =
         useGetAllRsCities(screenSquare as ScreenSquareType)
+
+    const { mdt } = useGetMdt()
+
+    // const image = georaster?.getImage()
 
     const markers: {
         geocode: LatLngTuple
@@ -162,6 +168,7 @@ export function Gis() {
                         scrollWheelZoom={true}
                         className="h-full hover:cursor-default"
                     >
+                        {/* <RasterLayer /> */} //!!!!!!!
                         <ScreenSquare setScreenSquare={setScreenSquare} />
                         <CoordsFinderDummy setOnHoverCoord={setOnHoverCoord} />
                         {isPointToolOn && (
