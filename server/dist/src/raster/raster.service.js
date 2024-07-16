@@ -12,7 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RasterService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
-const fs_1 = require("fs");
+const fs = require("fs/promises");
+const fileToHex = async (filePath) => {
+    const fileBuffer = await fs.readFile(filePath);
+    return fileBuffer.toString("hex");
+};
+const compareHexAndFile = async (hex, filePath) => {
+    const fileHex = await fileToHex(filePath);
+    return hex === fileHex;
+};
 let RasterService = class RasterService {
     constructor(prisma) {
         this.prisma = prisma;
@@ -31,8 +39,8 @@ let RasterService = class RasterService {
       LIMIT ${limit} OFFSET ${offset}
     `;
         const hexArray = mdt.flatMap((mdt) => mdt.hex);
-        const file = await fs_1.promises.readFile("/dev-arthur/Projects/fullstack-gis/data/MDT_BHASB_4326_2.tif");
-        return hexArray.toString();
+        const file = await fileToHex("/dev-arthur/Projects/fullstack-gis/data/MDT_BHASB_4326_2.tif");
+        return file;
     }
     findOne(id) {
         return `This action returns a #${id} raster`;

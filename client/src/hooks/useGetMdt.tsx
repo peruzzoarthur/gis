@@ -2,22 +2,34 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import GeoTIFF, { GeoTIFFImage, fromArrayBuffer } from 'geotiff'
 import { axiosInstance } from '@/axiosInstance'
+import parseGeoraster, { GeoRaster } from 'georaster'
 
 const hexToArrayBuffer = (hex: string): ArrayBuffer => {
-    // Ensure the hex string has an even length
-    if (hex.length % 2 !== 0) {
-        throw new Error('Invalid hex string')
-    }
+    // if (hex.length % 2 !== 0) {
+    //     throw new Error('Invalid hex string length')
+    // }
 
     const typedArray = new Uint8Array(
         hex.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16))
     )
-    return typedArray
+
+    return typedArray.buffer
+}
+
+const logArrayBuffer = (buffer: ArrayBuffer, length: number = 100) => {
+    const dataView = new DataView(buffer)
+    const byteArray = new Uint8Array(buffer)
+    const hexArray = []
+
+    for (let i = 0; i < Math.min(length, byteArray.length); i++) {
+        hexArray.push(byteArray[i].toString(16).padStart(2, '0'))
+    }
+
+    console.log('ArrayBuffer initial bytes:', hexArray.join(' '))
 }
 
 export const useGetMdt = () => {
-    const [geotiff, setGeotiff] = useState<GeoTIFF | null>(null)
-    const [rasterImage, setRasterImage] = useState<GeoTIFFImage | null>(null)
+    const [geotiff, setGeotiff] = useState<GeoRaster | null>(null)
 
     const {
         data: mdt,
@@ -30,12 +42,32 @@ export const useGetMdt = () => {
                 const { data }: { data: string } =
                     await axiosInstance.get('/raster')
 
-                const arrayBuffer = hexToArrayBuffer(data)
-                console.log(arrayBuffer)
+                if (!data) {
+                    throw new Error('No data received from /raster endpoint')
+                }
 
-                const raster = await fromArrayBuffer(arrayBuffer)
-                console.log(raster)
-                return data
+                const arrayBuffer = hexToArrayBuffer(data)
+
+                console.log('Typed array length:', arrayBuffer.byteLength)
+                logArrayBuffer(arrayBuffer)
+
+                // Check initial bytes for GeoTIFF signature
+                const initialBytes = new Uint8Array(arrayBuffer.slice(0, 4))
+                console.log('Initial Bytes:', initialBytes)
+
+                if (initialBytes[0] !== 0x49 && initialBytes[0] !== 0x4d) {
+                    throw new Error('Invalid TIFF header in the array buffer')
+                }
+
+                const tiff = await parseGeoraster(arrayBuffer)
+                console.log(tiff)
+                setGeotiff(tiff)
+
+                // const image = await tiff.getImage()
+                // setRasterImage(image)
+                // console.log('GeoTIFFImage:', image)
+
+                return tiff
             } catch (error) {
                 console.error(
                     'Error fetching or processing GeoTIFF data:',
@@ -54,7 +86,6 @@ export const useGetMdt = () => {
         isFetchingMdt,
         refetchMdt,
         geotiff,
-        rasterImage,
     }
 }
 

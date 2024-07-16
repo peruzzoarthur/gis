@@ -58,7 +58,7 @@ export function Gis() {
     const { isFetchingAllRsCities, geometries, showCities, setShowCities } =
         useGetAllRsCities(screenSquare as ScreenSquareType)
 
-    const { mdt } = useGetMdt()
+    const { geotiff } = useGetMdt()
 
     // const image = georaster?.getImage()
 
@@ -168,7 +168,7 @@ export function Gis() {
                         scrollWheelZoom={true}
                         className="h-full hover:cursor-default"
                     >
-                        {/* <RasterLayer /> */} //!!!!!!!
+                        {geotiff && <RasterLayer geotiff={geotiff} />}
                         <ScreenSquare setScreenSquare={setScreenSquare} />
                         <CoordsFinderDummy setOnHoverCoord={setOnHoverCoord} />
                         {isPointToolOn && (
