@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import GeoTIFF, { GeoTIFFImage, fromArrayBuffer } from 'geotiff'
+// import GeoTIFF, { GeoTIFFImage, fromArrayBuffer } from 'geotiff'
 import { axiosInstance } from '@/axiosInstance'
 import parseGeoraster, { GeoRaster } from 'georaster'
 
@@ -16,17 +16,17 @@ const hexToArrayBuffer = (hex: string): ArrayBuffer => {
     return typedArray.buffer
 }
 
-const logArrayBuffer = (buffer: ArrayBuffer, length: number = 100) => {
-    const dataView = new DataView(buffer)
-    const byteArray = new Uint8Array(buffer)
-    const hexArray = []
+// const logArrayBuffer = (buffer: ArrayBuffer, length: number = 100) => {
+//     // const dataView = new DataView(buffer)
+//     const byteArray = new Uint8Array(buffer)
+//     const hexArray = []
 
-    for (let i = 0; i < Math.min(length, byteArray.length); i++) {
-        hexArray.push(byteArray[i].toString(16).padStart(2, '0'))
-    }
+//     for (let i = 0; i < Math.min(length, byteArray.length); i++) {
+//         hexArray.push(byteArray[i].toString(16).padStart(2, '0'))
+//     }
 
-    console.log('ArrayBuffer initial bytes:', hexArray.join(' '))
-}
+//     console.log('ArrayBuffer initial bytes:', hexArray.join(' '))
+// }
 
 export const useGetMdt = () => {
     const [geotiff, setGeotiff] = useState<GeoRaster | null>(null)
@@ -48,8 +48,8 @@ export const useGetMdt = () => {
 
                 const arrayBuffer = hexToArrayBuffer(data)
 
-                console.log('Typed array length:', arrayBuffer.byteLength)
-                logArrayBuffer(arrayBuffer)
+                // console.log('Typed array length:', arrayBuffer.byteLength)
+                // logArrayBuffer(arrayBuffer)
 
                 // Check initial bytes for GeoTIFF signature
                 const initialBytes = new Uint8Array(arrayBuffer.slice(0, 4))
@@ -60,7 +60,7 @@ export const useGetMdt = () => {
                 }
 
                 const tiff = await parseGeoraster(arrayBuffer)
-                console.log(tiff)
+                // console.log(tiff)
                 setGeotiff(tiff)
 
                 // const image = await tiff.getImage()

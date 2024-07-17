@@ -1,31 +1,33 @@
 import { GeoRaster } from 'georaster'
-import GeoRasterLayer from 'georaster-layer-for-leaflet'
+import GeoRasterLayer, {
+    GeoRasterLayerOptions,
+} from 'georaster-layer-for-leaflet'
 import { useMap } from 'react-leaflet'
+import Rainbow from 'rainbowvis.js'
 
 export const RasterLayer = ({ geotiff }: { geotiff: GeoRaster }) => {
+    const rainbow = new Rainbow()
+    const numberOfItems = 40
+    rainbow.setNumberRange(1, numberOfItems)
+    rainbow.setSpectrum('black', 'white')
     const map = useMap()
+
+    const pixelValuesToColorFn: GeoRasterLayerOptions['pixelValuesToColorFn'] =
+        (vals: number[]) => {
+            if (vals[0] <= 0) {
+                return 'transparent' // or any other fallback color
+            }
+            return '#' + rainbow.colourAt(Math.round(vals[0]))
+        }
 
     const layer = new GeoRasterLayer({
         georaster: geotiff,
-        opacity: 0.7,
-        // pixelValuesToColorFn: (values) =>
-        //     values[0] === 0 ? 'transparent' : 'black',
-        // pixelValuesToColorFn: function (values) {
-        //     if (values[0] === 0) {
-        //         return 'transparent'
-        //     } else if (values[0] > 2 && values[0] < 8) {
-        //         return 'green'
-        //     } else if (values[0] < 4 && values[0] > 10) {
-        //         return '#93E9BE'
-        //     } else if (values[0] < 10 && values[0] > 20) {
-        //         return 'red'
-        //     } else if (values[0] === 12) {
-        //         return '#966400'
-        //     } else {
-        //         return 'transparent'
-        //     }
-        // },
-        resolution: 512,
+        opacity: 0.9,
+        pixelValuesToColorFn,
+
+        resolution: 128,
+        updateWhenZooming: false,
+        updateWhenIdle: false,
     })
 
     map.addLayer(layer)

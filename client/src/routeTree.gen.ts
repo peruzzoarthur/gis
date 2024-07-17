@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TiffImport } from './routes/tiff'
 import { Route as GisImport } from './routes/gis'
 
 // Create Virtual Routes
@@ -32,6 +33,11 @@ const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+
+const TiffRoute = TiffImport.update({
+  path: '/tiff',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const GisRoute = GisImport.update({
   path: '/gis',
@@ -55,6 +61,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GisImport
       parentRoute: typeof rootRoute
     }
+    '/tiff': {
+      preLoaderRoute: typeof TiffImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
@@ -71,6 +81,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
   GisRoute,
+  TiffRoute,
   AboutLazyRoute,
   ProfileLazyRoute,
 ])
