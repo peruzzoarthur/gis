@@ -37,6 +37,11 @@ model cities_rs {
   @@index([geom], name: "cities_rs_idx", type: Gist)
 }
 
+model tiff_files {
+  id   Int   @id @default(autoincrement())
+  data Bytes
+}
+
 // model nyc {
 //   gid      String                                        @id
 //   geom     Unsupported("geometry(MultiPolygon, 26918)")?

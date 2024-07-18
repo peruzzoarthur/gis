@@ -6,8 +6,13 @@ import { CorsOptions } from "@nestjs/common/interfaces/external/cors-options.int
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  // const corsOptions: CorsOptions = {
+  //   origin: "https://gis.up.railway.app",
+  //   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  //   credentials: true,
+  // };
   const corsOptions: CorsOptions = {
-    origin: "https://gis.up.railway.app",
+    origin: "http://localhost:5173",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   };

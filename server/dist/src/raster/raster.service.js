@@ -29,28 +29,15 @@ let RasterService = class RasterService {
         return "This action adds a new raster";
     }
     async findAll() {
-        const page = 1;
-        const limit = 1;
         const hexToArrayBuffer = (hex) => {
             const typedArray = new Uint8Array(hex.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)));
             return typedArray.buffer;
         };
-        const offset = (page - 1) * limit;
-        const mdt = await this.prisma.$queryRaw `
-    SELECT encode(ST_AsBinary(rast), 'hex') as hex
-    FROM public.mdt_bhasb
-    ORDER BY rid ASC
-    LIMIT ${limit} OFFSET ${offset}
-    `;
         const dbfile = await this.prisma.$queryRaw `
-    SELECT encode(data, 'hex') as hex
+    SELECT encode(data, 'hex') as hex  
     FROM tiff_files
     ORDER BY id ASC
-    LIMIT 1;
   `;
-        const file = await fileToHex("/dev-arthur/Projects/fullstack-gis/data/MDT_BHASB_4326_2.tif");
-        console.log(file.slice(0, 50));
-        console.log(dbfile[0].hex.slice(0, 50));
         return dbfile[0].hex;
     }
     findOne(id) {
