@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   const corsOptions: CorsOptions = {
-    origin: "https://gis.up.railway.app:8080", // Replace with your actual front-end URL
+    origin: "https://gis.up.railway.app",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   };
