@@ -30,7 +30,7 @@ function MapComponent() {
 
     return (
         <div className="flex flex-col w-screen h-screen">
-            {isFetchingMdt ? <h1>loading</h1> : null}
+            {isFetchingMdt ? <h1>loading...</h1> : null}
             {selectAltitude && <h1>{selectAltitude}</h1>}
             <MapContainer
                 center={[-31.75955334256868, -52.34488136477589]}
