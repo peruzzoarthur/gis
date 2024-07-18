@@ -41,20 +41,20 @@ export class RasterService {
 
     // const mdt = await this.prisma.$queryRaw<RasterRow[]>`
     //   SELECT ST_AsHexWKB(rast) as hex
-    //   FROM public.srtm_bhasb //! this errors because of format of binary in this file
+    //   FROM public.srtm_bhasb
     //   ORDER BY rid ASC
     //   LIMIT ${limit} OFFSET ${offset}
     // `;
 
     // const mdt = await this.prisma.$queryRaw<RasterRow[]>`
     // SELECT encode(ST_AsBinary(rast), 'hex') as hex
-    // FROM public.mdt_bhasb //! this errors because of format of binary in this file
+    // FROM public.mdt_bhasb
     // ORDER BY rid ASC
     // LIMIT ${limit} OFFSET ${offset}
     // `;
 
     const dbfile = await this.prisma.$queryRaw<{ hex: string }[]>`
-    SELECT encode(data, 'hex') as hex  //! need to push the raw tiff in order to parse
+    SELECT encode(data, 'hex') as hex  
     FROM tiff_files
     ORDER BY id ASC
     LIMIT 1;
