@@ -9,7 +9,7 @@
         "paths": {
             "@/*": ["./src/*"]
         },
-        "typeRoots": ["./node_modules/@types", "./types"],
+        "typeRoots": ["./node_modules/@types", "./src/types"],
         /* Bundler mode */
         "moduleResolution": "bundler",
         "allowImportingTsExtensions": true,
