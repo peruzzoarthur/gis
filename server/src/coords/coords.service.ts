@@ -18,17 +18,17 @@ export class CoordsService {
     private pgService: PgService
   ) {}
   async create(createCoordDto: CreateCoordDto) {
-    await this.prisma.$executeRaw`
+    const create = await this.prisma.$executeRaw`
       INSERT INTO "Location" (coords)
       VALUES (ST_SetSRID(ST_MakePoint(${createCoordDto.longitude}, ${createCoordDto.latitude}), 4326));
     `;
 
-    const query = `SELECT * FROM "Location"`;
-    await this.pgService.exportShapefile(
-      query,
-      "/home/ozzurep/Desktop/test/my_shapefile"
-    );
-
+    // const query = `SELECT * FROM "Location"`;
+    // await this.pgService.exportShapefile(
+    //   query,
+    //   "/home/ozzurep/Desktop/test/my_shapefile"
+    // );
+    console.log(create);
     return "done";
   }
 
