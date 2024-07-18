@@ -30,6 +30,7 @@ import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { useGetAllRsCities } from '@/hooks/useGetAllRsCities'
 import { ScreenSquare } from '@/components/custom/screenSquare'
+import { axiosInstance } from '@/axiosInstance'
 // import { useGetMdt } from '@/hooks/useGetMdt'
 // import { RasterLayer } from '@/components/rasterLayer'
 
@@ -83,8 +84,8 @@ export function Gis() {
                 longitude: input.lng,
             }
 
-            const data: AxiosResponse<unknown> = await axios.post(
-                `${import.meta.env.VITE_SERVER_URL}/coords/`,
+            const data: AxiosResponse<unknown> = await axiosInstance.post(
+                `/coords/`,
                 requestBody
             )
             await refetchAllCoords()
