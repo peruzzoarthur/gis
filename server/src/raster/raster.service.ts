@@ -46,12 +46,12 @@ export class RasterService {
     //   LIMIT ${limit} OFFSET ${offset}
     // `;
 
-    const mdt = await this.prisma.$queryRaw<RasterRow[]>`
-    SELECT encode(ST_AsBinary(rast), 'hex') as hex
-    FROM public.mdt_bhasb
-    ORDER BY rid ASC
-    LIMIT ${limit} OFFSET ${offset}
-    `;
+    // const mdt = await this.prisma.$queryRaw<RasterRow[]>`
+    // SELECT encode(ST_AsBinary(rast), 'hex') as hex
+    // FROM public.mdt_bhasb
+    // ORDER BY rid ASC
+    // LIMIT ${limit} OFFSET ${offset}
+    // `;
 
     const dbfile = await this.prisma.$queryRaw<{ hex: string }[]>`
     SELECT encode(data, 'hex') as hex
@@ -77,12 +77,12 @@ export class RasterService {
     // const file = await fileToHex(
     //   "/dev-arthur/Projects/fullstack-gis/data/nepal_lc_2020_converted.tif"
     // );
-    const file = await fileToHex(
-      "/dev-arthur/Projects/fullstack-gis/data/MDT_BHASB_4326_2.tif"
-    );
+    // const file = await fileToHex(
+    //   "/dev-arthur/Projects/fullstack-gis/data/MDT_BHASB_4326_2.tif"
+    // );
     // console.log(hexArray);
-    console.log(file.slice(0, 50));
-    console.log(dbfile[0].hex.slice(0, 50));
+    // console.log(file.slice(0, 50));
+    // console.log(dbfile[0].hex.slice(0, 50));
     return dbfile[0].hex;
   }
   findOne(id: number) {
