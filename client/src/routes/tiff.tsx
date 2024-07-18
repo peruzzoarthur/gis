@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="../types/geoblaze.d.ts" />
+
 import { createFileRoute } from '@tanstack/react-router'
 import {
     MapContainer,
